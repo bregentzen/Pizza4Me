@@ -1,4 +1,4 @@
-package de.hsos.swa.pizza4me.shared;
+package de.hsos.swa.pizza4me.shared.dto;
 
 public class PizzaDTO {
     private long id;
