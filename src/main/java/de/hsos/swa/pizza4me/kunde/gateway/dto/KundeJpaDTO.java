@@ -1,7 +1,15 @@
 package de.hsos.swa.pizza4me.kunde.gateway.dto;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.NamedQuery;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import java.util.Objects;
 
+@Entity(name = "Kunde")
+@Schema(name = "KUNDEN")
+@NamedQuery(name = "KundeJpaDTO.findById",
+            query = "SELECT kunde FROM Kunde kunde where kunde.id=:id")
 public class KundeJpaDTO {
     private Long id;
     private String vorname;
