@@ -20,12 +20,6 @@ public class PizzaJpaDTO {
     public PizzaJpaDTO() {
     }
 
-    public PizzaJpaDTO(Long id, String name, Double preis) {
-        this.id = id;
-        this.name = name;
-        this.preis = preis;
-    }
-
     public PizzaJpaDTO(String name, double preis) {
         this.name = name;
         this.preis = preis;

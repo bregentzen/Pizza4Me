@@ -20,33 +20,30 @@ public class PizzeriaController {
     @Inject
     PizzaConverter pizzaConverter; // Verwendung des PizzaConverter für die Umwandlung
 
-    public List<PizzaWebDTO> getAllPizzas(int page, int size) {
+    public List<PizzaIdWebDTO> getAllPizzas(int page, int size) {
         List<Pizza> pizzas = pizzeriaGateway.findAllPizzas(page, size);
-        return pizzas.stream().map(this::convertToWebDTO).collect(Collectors.toList());
+        return pizzas.stream().map(pizzaConverter::convertToIdWebDTO).collect(Collectors.toList());
     }
 
     public PizzaIdWebDTO addPizza(PizzaWebDTO pizzaWebDTO) {
-        Pizza pizza = convertToEntity(pizzaWebDTO);
+        Pizza pizza = pizzaConverter.convertToEntity(pizzaWebDTO);
+        System.out.println("Pizza: " + pizza);
         Pizza savedPizza = pizzeriaGateway.savePizza(pizza);
-        return convertToIdWebDTO(savedPizza);
+        System.out.println("Saved Pizza: " + savedPizza);
+        return pizzaConverter.convertToIdWebDTO(savedPizza);
     }
 
-    private Pizza convertToEntity(PizzaWebDTO pizzaWebDTO) {
-        return new Pizza(pizzaWebDTO.getName(), pizzaWebDTO.getPreis());
+    public PizzaIdWebDTO findPizzaById(Long id) {
+        return pizzeriaGateway.findById(id)
+                .map(pizzaConverter::convertToIdWebDTO)
+                .orElse(null);
     }
 
-    private PizzaWebDTO convertToWebDTO(Pizza pizza) {
-        PizzaWebDTO pizzaWebDTO = new PizzaWebDTO();
-        pizzaWebDTO.setName(pizza.getName());
-        pizzaWebDTO.setPreis(pizza.getPreis());
-        return pizzaWebDTO;
+    public boolean updatePizzaPrice(Long id, double newPrice) {
+        return pizzeriaGateway.updatePrice(id, newPrice);
     }
 
-    private PizzaIdWebDTO convertToIdWebDTO(Pizza pizza) {
-        PizzaIdWebDTO pizzaIdWebDTO = new PizzaIdWebDTO();
-        pizzaIdWebDTO.setId(pizza.getId());
-        pizzaIdWebDTO.setName(pizza.getName());
-        pizzaIdWebDTO.setPreis(pizza.getPreis());
-        return pizzaIdWebDTO;
+    public boolean deletePizza(Long id) {
+        return pizzeriaGateway.delete(id);
     }
 }
