@@ -4,10 +4,12 @@ import de.hsos.swa.pizza4me.kunde.control.converter.KundenConverter;
 import de.hsos.swa.pizza4me.kunde.entity.Kunde;
 import de.hsos.swa.pizza4me.kunde.entity.KundenGateway;
 import de.hsos.swa.pizza4me.shared.dto.KundeDTO;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.util.List;
 
+@ApplicationScoped
 public class KundenController {
     @Inject
     KundenGateway kundenGateway;

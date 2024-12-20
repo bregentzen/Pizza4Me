@@ -1,7 +1,6 @@
 package de.hsos.swa.pizza4me.kunde.entity;
 
 public class Adresse {
-    private Long id;
     private String strasse;
     private String hausnummer;
     private String plz;
@@ -15,14 +14,6 @@ public class Adresse {
         this.hausnummer = hausnummer;
         this.plz = plz;
         this.ort = ort;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getStrasse() {
@@ -70,9 +61,7 @@ public class Adresse {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Adresse)) return false;
-
-        Adresse that = (Adresse) o;
+        if (!(o instanceof Adresse that)) return false;
 
         if (strasse != null ? !strasse.equals(that.strasse) : that.strasse != null) return false;
         if (hausnummer != null ? !hausnummer.equals(that.hausnummer) : that.hausnummer != null) return false;
