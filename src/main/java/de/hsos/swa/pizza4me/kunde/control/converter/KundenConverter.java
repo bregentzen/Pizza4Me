@@ -1,8 +1,9 @@
 package de.hsos.swa.pizza4me.kunde.control.converter;
 
+import de.hsos.swa.pizza4me.kunde.boundary.dto.KundeIdWebDTO;
+import de.hsos.swa.pizza4me.kunde.boundary.dto.KundeWebDTO;
 import de.hsos.swa.pizza4me.kunde.entity.Adresse;
 import de.hsos.swa.pizza4me.kunde.entity.Kunde;
-import de.hsos.swa.pizza4me.shared.dto.KundeDTO;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 
@@ -14,19 +15,19 @@ public class KundenConverter {
     @Inject
     AdresseConverter adresseConverter;
 
-    public KundeDTO toDTO(Kunde kunde) {
+    public KundeIdWebDTO toWebDtoWithId(Kunde kunde) {
         long id = kunde.getId();
         String vorname = kunde.getVorname();
         String nachname = kunde.getNachname();
         Adresse adresse = kunde.getAdresse();
-        return new KundeDTO(id, vorname, nachname, adresseConverter.toDTO(adresse));
+        return new KundeIdWebDTO(id, vorname, nachname, adresseConverter.toWebDTO(adresse));
     }
 
-    public Kunde toEntity(KundeDTO kundeDTO) {
-        return new Kunde(kundeDTO.getId(), kundeDTO.getVorname(), kundeDTO.getNachname(), adresseConverter.toEntity(kundeDTO.getAdresse()));
+    public Kunde toEntity(KundeWebDTO kundeWebDTO) {
+        return new Kunde( kundeWebDTO.getVorname(), kundeWebDTO.getNachname(), adresseConverter.toEntity(kundeWebDTO.getAdresse()));
     }
 
-    public List<KundeDTO> toDTOs(List<Kunde> kunden) {
-        return kunden.stream().map(this::toDTO).toList();
+    public List<KundeIdWebDTO> toWebDTOs(List<Kunde> kunden) {
+        return kunden.stream().map(this::toWebDtoWithId).toList();
     }
 }

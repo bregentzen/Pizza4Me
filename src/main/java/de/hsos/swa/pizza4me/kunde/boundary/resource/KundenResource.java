@@ -1,15 +1,15 @@
 package de.hsos.swa.pizza4me.kunde.boundary.resource;
 
+import de.hsos.swa.pizza4me.kunde.boundary.dto.KundeIdWebDTO;
+import de.hsos.swa.pizza4me.kunde.boundary.dto.KundeWebDTO;
 import de.hsos.swa.pizza4me.kunde.control.KundenController;
+import de.hsos.swa.pizza4me.kunde.entity.Kunde;
 import de.hsos.swa.pizza4me.shared.dto.KundeDTO;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -17,7 +17,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import org.jose4j.json.internal.json_simple.JSONObject;
 
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class KundenResource {
             }
     )
     public Response getAllKunden() {
-        List<KundeDTO> kunden = kundenController.getAllKunden();
+        List<KundeIdWebDTO> kunden = kundenController.getAllKunden();
 
         if (kunden.isEmpty()) {
             JsonObject message = Json.createObjectBuilder()
@@ -57,5 +56,11 @@ public class KundenResource {
         }
 
         return Response.ok(kunden).build();
+    }
+
+    @POST
+    public Response createKunde(KundeWebDTO kunde) {
+        KundeIdWebDTO createdKunde = kundenController.createKunde(kunde);
+        return Response.status(Response.Status.CREATED).entity(createdKunde).build();
     }
 }

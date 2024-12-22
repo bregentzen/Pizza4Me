@@ -18,6 +18,13 @@ public class Kunde {
         this.adresse = adresse;
     }
 
+    public Kunde(String vorname, String nachname, Adresse adresse) {
+        this.vorname = vorname;
+        this.nachname = nachname;
+        this.adresse = adresse;
+
+    }
+
     public Long getId() {
         return this.id;
     }
