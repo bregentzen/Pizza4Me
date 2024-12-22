@@ -1,9 +1,11 @@
 package de.hsos.swa.pizza4me.kunde.gateway.dto;
 
+import jakarta.persistence.Embeddable;
+
 import java.util.Objects;
 
+@Embeddable
 public class AdresseJpaDTO {
-    private Long id;
     private String strasse;
     private String hausnummer;
     private String plz;
@@ -12,16 +14,11 @@ public class AdresseJpaDTO {
     public AdresseJpaDTO() {
     }
 
-    public AdresseJpaDTO(Long id, String strasse, String hausnummer, String plz, String ort) {
-        this.id = id;
+    public AdresseJpaDTO(String strasse, String hausnummer, String plz, String ort) {
         this.strasse = strasse;
         this.hausnummer = hausnummer;
         this.plz = plz;
         this.ort = ort;
-    }
-
-    public Long getId() {
-        return this.id;
     }
 
     public String getStrasse() {
@@ -40,9 +37,6 @@ public class AdresseJpaDTO {
         return this.ort;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public void setStrasse(String strasse) {
         this.strasse = strasse;
@@ -63,7 +57,6 @@ public class AdresseJpaDTO {
     @Override
     public String toString() {
         return "AdresseJpaDTO{" +
-                "id=" + id +
                 ", strasse='" + strasse + '\'' +
                 ", hausnummer='" + hausnummer + '\'' +
                 ", plz='" + plz + '\'' +
@@ -76,7 +69,6 @@ public class AdresseJpaDTO {
         if (this == o) return true;
         if (!(o instanceof AdresseJpaDTO that)) return false;
 
-        if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(strasse, that.strasse)) return false;
         if (!Objects.equals(hausnummer, that.hausnummer)) return false;
         if (!Objects.equals(plz, that.plz)) return false;
@@ -85,8 +77,8 @@ public class AdresseJpaDTO {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (strasse != null ? strasse.hashCode() : 0);
+
+        int result = strasse != null ? strasse.hashCode() : 0;
         result = 31 * result + (hausnummer != null ? hausnummer.hashCode() : 0);
         result = 31 * result + (plz != null ? plz.hashCode() : 0);
         result = 31 * result + (ort != null ? ort.hashCode() : 0);

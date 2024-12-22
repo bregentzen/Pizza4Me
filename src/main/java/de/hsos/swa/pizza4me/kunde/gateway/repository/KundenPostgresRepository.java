@@ -115,7 +115,7 @@ public class KundenPostgresRepository implements KundenGateway {
 
     //TODO: hier so gewollt? vielleicht aendern
     private AdresseJpaDTO toDbDTOAdresse(Adresse adresse) {
-        return new AdresseJpaDTO(adresse.getId(), adresse.getStrasse(), adresse.getHausnummer(), adresse.getPlz(), adresse.getOrt());
+        return new AdresseJpaDTO(adresse.getStrasse(), adresse.getHausnummer(), adresse.getPlz(), adresse.getOrt());
     }
 
 }
