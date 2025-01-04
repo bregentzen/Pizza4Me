@@ -1,57 +1,54 @@
 package de.hsos.swa.pizza4me.bestellung.gateway.dto;
 
-import java.util.List;
-import java.util.Objects;
+import de.hsos.swa.pizza4me.kunde.gateway.dto.KundeJpaDTO;
+import jakarta.persistence.*;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import java.util.List;
+
+@Entity(name = "Bestellung")
+@Schema(name = "BESTELLUNGEN")
+@NamedQuery(name = "BestellungJpaDTO.findById",
+        query = "SELECT bestellung FROM Bestellung bestellung where bestellung.id=:id")
 public class BestellungJpaDTO {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ElementCollection
     private List<BestellpostenJpaDTO> bestellposten;
 
-    public BestellungJpaDTO() {
-    }
+    @ManyToOne
+    private KundeJpaDTO kunde;
 
-    public BestellungJpaDTO(long id, List<BestellpostenJpaDTO> bestellposten) {
-        this.id = id;
+    public BestellungJpaDTO() {}
+
+    public BestellungJpaDTO(List<BestellpostenJpaDTO> bestellposten, KundeJpaDTO kunde) {
         this.bestellposten = bestellposten;
+        this.kunde = kunde;
     }
 
     public long getId() {
         return id;
     }
 
-    public List<BestellpostenJpaDTO> getBestellposten() {
-        return bestellposten;
-    }
-
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<BestellpostenJpaDTO> getBestellposten() {
+        return bestellposten;
     }
 
     public void setBestellposten(List<BestellpostenJpaDTO> bestellposten) {
         this.bestellposten = bestellposten;
     }
 
-    @Override
-    public String toString() {
-        return "BestellungJpaDTO{" +
-                "id=" + id +
-                ", bestellposten=" + bestellposten +
-                '}';
+    public KundeJpaDTO getKunde() {
+        return kunde;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BestellungJpaDTO that)) return false;
-
-        if (id != that.id) return false;
-        return Objects.equals(bestellposten, that.bestellposten);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Long.hashCode(id);
-        result = 31 * result + (bestellposten != null ? bestellposten.hashCode() : 0);
-        return result;
+    public void setKunde(KundeJpaDTO kunde) {
+        this.kunde = kunde;
     }
 }

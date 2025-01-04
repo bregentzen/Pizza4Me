@@ -3,8 +3,6 @@ package de.hsos.swa.pizza4me.kunde.boundary.resource;
 import de.hsos.swa.pizza4me.kunde.boundary.dto.KundeIdWebDTO;
 import de.hsos.swa.pizza4me.kunde.boundary.dto.KundeWebDTO;
 import de.hsos.swa.pizza4me.kunde.control.KundenController;
-import de.hsos.swa.pizza4me.kunde.entity.Kunde;
-import de.hsos.swa.pizza4me.shared.dto.KundeDTO;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -35,7 +33,7 @@ public class KundenResource {
             value = {
                     @APIResponse(
                             responseCode = "200", description = "Successfully get all customers",
-                            content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = KundeDTO.class))
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = KundeIdWebDTO.class))
                     ),
                     @APIResponse(
                             responseCode = "204", description = "No customers exist",

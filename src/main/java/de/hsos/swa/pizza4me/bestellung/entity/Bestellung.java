@@ -1,25 +1,25 @@
 package de.hsos.swa.pizza4me.bestellung.entity;
 
+import de.hsos.swa.pizza4me.kunde.entity.Kunde;
+
 import java.util.List;
-import java.util.Objects;
 
 public class Bestellung {
-    private Long id;
+    private long id;
     private List<Bestellposten> bestellposten;
+    private Kunde kunde;
 
-    public Bestellung() {
-    }
-
-    public Bestellung(Long id, List<Bestellposten> bestellposten) {
+    public Bestellung(long id, List<Bestellposten> bestellposten, Kunde kunde) {
         this.id = id;
         this.bestellposten = bestellposten;
+        this.kunde = kunde;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -31,11 +31,20 @@ public class Bestellung {
         this.bestellposten = bestellposten;
     }
 
+    public Kunde getKunde() {
+        return kunde;
+    }
+
+    public void setKunde(Kunde kunde) {
+        this.kunde = kunde;
+    }
+
     @Override
     public String toString() {
         return "Bestellung{" +
                 "id=" + id +
                 ", bestellposten=" + bestellposten +
+                ", kunde=" + kunde +
                 '}';
     }
 
@@ -44,14 +53,16 @@ public class Bestellung {
         if (this == o) return true;
         if (!(o instanceof Bestellung that)) return false;
 
-        if (!Objects.equals(id, that.id)) return false;
-        return Objects.equals(bestellposten, that.bestellposten);
+        if (id != that.id) return false;
+        if (bestellposten != null ? !bestellposten.equals(that.bestellposten) : that.bestellposten != null) return false;
+        return kunde != null ? kunde.equals(that.kunde) : that.kunde == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = Long.hashCode(id);
         result = 31 * result + (bestellposten != null ? bestellposten.hashCode() : 0);
+        result = 31 * result + (kunde != null ? kunde.hashCode() : 0);
         return result;
     }
 }

@@ -1,69 +1,36 @@
 package de.hsos.swa.pizza4me.bestellung.gateway.dto;
 
+import de.hsos.swa.pizza4me.pizza.gateway.dto.PizzaJpaDTO;
+
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.ManyToOne;
+
+@Embeddable
 public class BestellpostenJpaDTO {
-    private Long id;
-    private Long pizzaId;
-    private Integer anzahl;
+    @ManyToOne
+    private PizzaJpaDTO pizza;
+    private int anzahl;
 
-    public BestellpostenJpaDTO() {
-    }
+    public BestellpostenJpaDTO() {}
 
-    public BestellpostenJpaDTO(Long id, Long pizzaId, Integer anzahl) {
-        this.id = id;
-        this.pizzaId = pizzaId;
+    public BestellpostenJpaDTO(PizzaJpaDTO pizza, int anzahl) {
+        this.pizza = pizza;
         this.anzahl = anzahl;
     }
 
-    public Long getId() {
-        return id;
+    public PizzaJpaDTO getPizza() {
+        return pizza;
     }
 
-    public Long getPizzaId() {
-        return pizzaId;
+    public void setPizza(PizzaJpaDTO pizza) {
+        this.pizza = pizza;
     }
 
-    public Integer getAnzahl() {
+    public int getAnzahl() {
         return anzahl;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setPizzaId(Long pizzaId) {
-        this.pizzaId = pizzaId;
-    }
-
-    public void setAnzahl(Integer anzahl) {
+    public void setAnzahl(int anzahl) {
         this.anzahl = anzahl;
-    }
-
-    @Override
-    public String toString() {
-        return "BestellpostenJpaDTO{" +
-                "id=" + id +
-                ", pizzaId=" + pizzaId +
-                ", anzahl=" + anzahl +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BestellpostenJpaDTO)) return false;
-
-        BestellpostenJpaDTO that = (BestellpostenJpaDTO) o;
-
-        if (id != that.id) return false;
-        if (pizzaId != that.pizzaId) return false;
-        return anzahl == that.anzahl;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (pizzaId != null ? pizzaId.hashCode() : 0);
-        result = 31 * result + (anzahl != null ? anzahl.hashCode() : 0);
-        return result;
     }
 }

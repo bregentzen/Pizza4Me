@@ -2,7 +2,6 @@ package de.hsos.swa.pizza4me.kunde.control.converter;
 
 import de.hsos.swa.pizza4me.kunde.boundary.dto.AdresseWebDTO;
 import de.hsos.swa.pizza4me.kunde.entity.Adresse;
-import de.hsos.swa.pizza4me.shared.dto.AdresseDTO;
 import jakarta.enterprise.context.Dependent;
 
 @Dependent

@@ -1,32 +1,18 @@
 package de.hsos.swa.pizza4me.bestellung.entity;
 
+import de.hsos.swa.pizza4me.pizza.entity.Pizza;
+
 public class Bestellposten {
-    private long id;
-    private long pizzaId;
+    private Pizza pizza;
     private int anzahl;
 
-    public Bestellposten() {
-    }
-
-    public Bestellposten(long pizzaId, int anzahl) {
-        this.pizzaId = pizzaId;
+    public Bestellposten(Pizza pizza, int anzahl) {
+        this.pizza = pizza;
         this.anzahl = anzahl;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getPizzaId() {
-        return pizzaId;
-    }
-
-    public void setPizzaId(long pizzaId) {
-        this.pizzaId = pizzaId;
+    public Pizza getPizza() {
+        return pizza;
     }
 
     public int getAnzahl() {
@@ -37,13 +23,13 @@ public class Bestellposten {
         this.anzahl = anzahl;
     }
 
+    public void setPizza(Pizza pizza) {
+        this.pizza = pizza;
+    }
+
     @Override
     public String toString() {
-        return "Bestellposten{" +
-                "id=" + id +
-                ", pizzaId=" + pizzaId +
-                ", anzahl=" + anzahl +
-                '}';
+        return "Bestellposten{" + "pizza=" + pizza + ", anzahl=" + anzahl + '}';
     }
 
     @Override
@@ -51,15 +37,13 @@ public class Bestellposten {
         if (this == o) return true;
         if (!(o instanceof Bestellposten that)) return false;
 
-        if (id != that.id) return false;
-        if (pizzaId != that.pizzaId) return false;
-        return anzahl == that.anzahl;
+        if (anzahl != that.anzahl) return false;
+        return pizza.equals(that.pizza);
     }
 
     @Override
     public int hashCode() {
-        int result = Long.hashCode(id);
-        result = 31 * result + Long.hashCode(pizzaId);
+        int result = pizza.hashCode();
         result = 31 * result + anzahl;
         return result;
     }

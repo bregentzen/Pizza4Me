@@ -1,56 +1,31 @@
 package de.hsos.swa.pizza4me.bestellung.boundary.dto;
 
-import java.util.Objects;
+import de.hsos.swa.pizza4me.pizza.boundary.dto.PizzaIdWebDTO;
 
 public class BestellpostenWebDTO {
-    private Long pizzaId;
-    private Integer anzahl;
+    private long pizza;
+    private int anzahl;
 
-    public BestellpostenWebDTO() {
-    }
+    public BestellpostenWebDTO() {}
 
-    public BestellpostenWebDTO(Long pizzaId, int anzahl) {
-        this.pizzaId = pizzaId;
+    public BestellpostenWebDTO(long pizza, int anzahl) {
+        this.pizza = pizza;
         this.anzahl = anzahl;
     }
 
-    public Long getPizzaId() {
-        return pizzaId;
+    public long getPizza() {
+        return pizza;
     }
 
-    public void setPizzaId(Long pizzaId) {
-        this.pizzaId = pizzaId;
+    public void setPizza(long pizza) {
+        this.pizza = pizza;
     }
 
-    public Integer getAnzahl() {
+    public int getAnzahl() {
         return anzahl;
     }
 
-    public void setAnzahl(Integer anzahl) {
+    public void setAnzahl(int anzahl) {
         this.anzahl = anzahl;
-    }
-
-    @Override
-    public String toString() {
-        return "BestellpostenWebDTO{" +
-                ", pizzaId=" + pizzaId +
-                ", anzahl=" + anzahl +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BestellpostenWebDTO that)) return false;
-
-        if (anzahl != that.anzahl) return false;
-        return Objects.equals(pizzaId, that.pizzaId);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = pizzaId != null ? pizzaId.hashCode() : 0;
-        result = 31 * result + anzahl;
-        return result;
     }
 }
