@@ -5,6 +5,7 @@ import de.hsos.swa.pizza4me.pizza.boundary.dto.PizzaIdWebDTO;
 import de.hsos.swa.pizza4me.pizza.control.PizzeriaController;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -34,6 +35,7 @@ public class PizzaResource {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = PizzaIdWebDTO.class))),
             @APIResponse(responseCode = "204", description = "No Content")
     })
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response getAllPizzas(@QueryParam("page") @DefaultValue("0") int page,
                                  @QueryParam("size") @DefaultValue("10") int size) {
         List<PizzaIdWebDTO> pizzas = pizzeriaController.getAllPizzas(page, size);
@@ -52,6 +54,7 @@ public class PizzaResource {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = PizzaIdWebDTO.class))),
             @APIResponse(responseCode = "204", description = "No Content")
     })
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response addPizza(PizzaWebDTO pizzaWebDTO) {
         PizzaIdWebDTO newPizza = pizzeriaController.addPizza(pizzaWebDTO);
         if (newPizza == null) {

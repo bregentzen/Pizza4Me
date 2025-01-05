@@ -8,6 +8,7 @@ import de.hsos.swa.pizza4me.kunde.gateway.dto.KundeJpaDTO;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -21,6 +22,7 @@ public class KundenPostgresRepository implements KundenGateway {
     transient EntityManager entityManager;
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public List<Kunde> getAllKunden() {
         String queryString = "select k from Kunde k";
         List<KundeJpaDTO> resultList = this.entityManager.createQuery(queryString, KundeJpaDTO.class).getResultList();
@@ -28,13 +30,14 @@ public class KundenPostgresRepository implements KundenGateway {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Optional<Kunde> getKundeById(long id) {
         KundeJpaDTO foundKunde = this.entityManager.find(KundeJpaDTO.class, id);
         return foundKunde != null ? Optional.of(fromDbDTOKunde(foundKunde)) : Optional.empty();
     }
 
     @Override
-    @Transactional
+    @Transactional(Transactional.TxType.REQUIRED)
     public Optional<Kunde> createKunde(Kunde kunde) {
         KundeJpaDTO kundeJpaDTO = new KundeJpaDTO();
         kundeJpaDTO.setId(kunde.getId());
@@ -52,7 +55,7 @@ public class KundenPostgresRepository implements KundenGateway {
     }
 
     @Override
-    @Transactional
+    @Transactional(Transactional.TxType.REQUIRED)
     public Optional<Kunde> updateKunde(Kunde kunde) {
         KundeJpaDTO foundKunde = this.entityManager.find(KundeJpaDTO.class, kunde.getId());
 
@@ -72,7 +75,7 @@ public class KundenPostgresRepository implements KundenGateway {
     }
 
     @Override
-    @Transactional
+    @Transactional(Transactional.TxType.REQUIRED)
     public boolean deleteKunde(long id) {
         KundeJpaDTO foundKunde = this.entityManager.find(KundeJpaDTO.class, id);
 
@@ -81,6 +84,25 @@ public class KundenPostgresRepository implements KundenGateway {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Optional<Kunde> getKundeByDetails(String vorname, String nachname, String strasse, String hausnummer, String plz, String ort) {
+        try {
+            KundeJpaDTO kundeJpaDTO = entityManager.createQuery(
+                            "SELECT k FROM Kunde k WHERE k.vorname = :vorname AND k.nachname = :nachname AND k.adresse.strasse = :strasse AND k.adresse.hausnummer = :hausnummer AND k.adresse.plz = :plz AND k.adresse.ort = :ort",
+                            KundeJpaDTO.class)
+                    .setParameter("vorname", vorname)
+                    .setParameter("nachname", nachname)
+                    .setParameter("strasse", strasse)
+                    .setParameter("hausnummer", hausnummer)
+                    .setParameter("plz", plz)
+                    .setParameter("ort", ort)
+                    .getSingleResult();
+            return Optional.of(fromDbDTOKunde(kundeJpaDTO));
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     private Kunde fromDbDTOKunde(KundeJpaDTO kundeJpaDTO) {

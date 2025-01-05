@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bestellabschluss</title>
+</head>
+<body>
+<h1>Bestellabschluss</h1>
+<form action="/checkout/{kundeId}" method="post">
+  <h2>Zusammenfassung der Bestellung</h2>
+  <ul>
+    {#each orderItems}
+      <li>{it.pizza.name} - {it.quantity}</li>
+    {/each}
+  </ul>
+  <button type="submit">Bestellung abschicken</button>
+</form>
+</body>
+</html>

@@ -24,6 +24,7 @@ public class PizzeriaPostgresRepository implements PizzeriaGateway {
     PizzaConverter pizzaConverter;
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public List<Pizza> findAllPizzas(int page, int size) {
         TypedQuery<PizzaJpaDTO> query = entityManager.createQuery("SELECT p FROM Pizza p", PizzaJpaDTO.class);
         query.setFirstResult(page * size);
@@ -33,6 +34,7 @@ public class PizzeriaPostgresRepository implements PizzeriaGateway {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Optional<Pizza> findById(Long id) {
         PizzaJpaDTO pizzaJpaDTO = entityManager.find(PizzaJpaDTO.class, id);
         if (pizzaJpaDTO != null) {
@@ -42,8 +44,8 @@ public class PizzeriaPostgresRepository implements PizzeriaGateway {
         }
     }
 
-    @Transactional
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public boolean updatePrice(Long id, double newPrice) {
         PizzaJpaDTO pizzaJpaDTO = entityManager.find(PizzaJpaDTO.class, id);
         if (pizzaJpaDTO != null) {
@@ -55,8 +57,8 @@ public class PizzeriaPostgresRepository implements PizzeriaGateway {
         }
     }
 
-    @Transactional
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public boolean delete(Long id) {
         PizzaJpaDTO pizzaJpaDTO = entityManager.find(PizzaJpaDTO.class, id);
         if (pizzaJpaDTO != null) {
@@ -67,8 +69,8 @@ public class PizzeriaPostgresRepository implements PizzeriaGateway {
         }
     }
 
-    @Transactional
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Pizza savePizza(Pizza pizza) {
         PizzaJpaDTO pizzaJpaDTO = pizzaConverter.convertToJpaDTO(pizza);
         entityManager.persist(pizzaJpaDTO);

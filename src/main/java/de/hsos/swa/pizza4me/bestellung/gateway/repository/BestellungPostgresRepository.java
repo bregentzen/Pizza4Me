@@ -16,6 +16,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,12 +28,14 @@ public class BestellungPostgresRepository implements BestellungGateway {
     EntityManager entityManager;
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Bestellung getBestellungById(long id) {
         BestellungJpaDTO bestellungJpaDTO = entityManager.find(BestellungJpaDTO.class, id);
         return convertToEntity(bestellungJpaDTO);
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Bestellung createBestellung(Bestellung bestellung) {
         BestellungJpaDTO bestellungJpaDTO = convertToDTO(bestellung);
         entityManager.persist(bestellungJpaDTO);
@@ -39,6 +43,7 @@ public class BestellungPostgresRepository implements BestellungGateway {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Bestellung updateBestellung(Kunde kunde, long bestellungId, Bestellposten posten) {
         BestellungJpaDTO bestellungJpaDTO = entityManager.find(BestellungJpaDTO.class, bestellungId);
         if (bestellungJpaDTO != null) {
@@ -49,6 +54,7 @@ public class BestellungPostgresRepository implements BestellungGateway {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void deleteBestellung(long id) {
         BestellungJpaDTO bestellungJpaDTO = entityManager.find(BestellungJpaDTO.class, id);
         if (bestellungJpaDTO != null) {
@@ -57,18 +63,21 @@ public class BestellungPostgresRepository implements BestellungGateway {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public List<Bestellung> getAllBestellungen() {
         TypedQuery<BestellungJpaDTO> query = entityManager.createQuery("SELECT b FROM Bestellung b", BestellungJpaDTO.class);
         return query.getResultList().stream().map(this::convertToEntity).collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Kunde getKundeById(long kundeId) {
         KundeJpaDTO kundeJpaDTO = entityManager.find(KundeJpaDTO.class, kundeId);
         return convertToKundeEntity(kundeJpaDTO);
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Pizza getPizzaById(long pizza) {
         PizzaJpaDTO pizzaJpaDTO = entityManager.find(PizzaJpaDTO.class, pizza);
         return convertToPizzaEntity(pizzaJpaDTO);

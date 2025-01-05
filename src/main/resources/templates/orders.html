@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bestellübersicht</title>
+</head>
+<body>
+<h1>Bestellübersicht</h1>
+<form action="/newOrder/{kundeId}" method="get">
+    <input type="hidden" name="kundeId" value="{kundeId}">
+    <button type="submit">Neue Bestellung</button>
+</form>
+<ul>
+    {#each orders}
+        <li>{it}</li>
+    {/each}
+</ul>
+</body>
+</html>

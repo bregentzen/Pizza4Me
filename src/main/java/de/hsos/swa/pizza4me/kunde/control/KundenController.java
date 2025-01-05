@@ -9,6 +9,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class KundenController {
@@ -17,13 +18,15 @@ public class KundenController {
 
     @Inject
     KundenConverter converter;
+    @Inject
+    KundenConverter kundenConverter;
 
     public List<KundeIdWebDTO> getAllKunden() {
         List<Kunde> kunden = kundenGateway.getAllKunden();
         return converter.toWebDTOs(kunden);
     }
 
-    public KundeWebDTO getKundeById(long id) {
+    public KundeIdWebDTO getKundeById(long id) {
         Kunde kunde = kundenGateway.getKundeById(id).isPresent() ? kundenGateway.getKundeById(id).get() : null;
 
         if (kunde != null) {
@@ -36,7 +39,7 @@ public class KundenController {
         return kundenGateway.deleteKunde(id);
     }
 
-    public KundeWebDTO updateKunde(KundeIdWebDTO kundeIdWebDTO) {
+    public KundeIdWebDTO updateKunde(KundeIdWebDTO kundeIdWebDTO) {
         Kunde kunde = converter.toEntity(kundeIdWebDTO);
         Kunde updatedKunde = kundenGateway.updateKunde(kunde).isPresent() ? kundenGateway.updateKunde(kunde).get() : null;
 
@@ -55,5 +58,10 @@ public class KundenController {
             return converter.toWebDtoWithId(createdKunde);
         }
         return null;
+    }
+
+    public KundeIdWebDTO getKundeByDetails(String vorname, String nachname, String strasse, String hausnummer, String plz, String ort) {
+        Optional<Kunde> kundeOptional = kundenGateway.getKundeByDetails(vorname, nachname, strasse, hausnummer, plz, ort);
+        return kundeOptional.map(kunde -> kundenConverter.toWebDtoWithId(kunde)).orElse(null);
     }
 }

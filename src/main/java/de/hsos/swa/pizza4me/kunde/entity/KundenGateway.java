@@ -10,4 +10,5 @@ public interface KundenGateway {
     Optional<Kunde> createKunde(Kunde kunde);
     Optional<Kunde> updateKunde(Kunde kunde);
     boolean deleteKunde(long id);
+    Optional<Kunde> getKundeByDetails(String vorname, String nachname, String strasse, String hausnummer, String plz, String ort);
 }

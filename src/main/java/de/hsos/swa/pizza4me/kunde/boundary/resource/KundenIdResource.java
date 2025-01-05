@@ -1,5 +1,6 @@
 package de.hsos.swa.pizza4me.kunde.boundary.resource;
 
+import de.hsos.swa.pizza4me.kunde.boundary.dto.KundeIdWebDTO;
 import de.hsos.swa.pizza4me.kunde.boundary.dto.KundeWebDTO;
 import de.hsos.swa.pizza4me.kunde.control.KundenController;
 
@@ -21,8 +22,9 @@ public class KundenIdResource {
     KundenController kundenController;
 
     @GET
-    public Response getKundeById(@PathParam("id") int id) {
-        KundeWebDTO kunde = kundenController.getKundeById(id);
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public Response getKundeById(@PathParam("id") long id) {
+        KundeIdWebDTO kunde = kundenController.getKundeById(id);
 
         if (kunde == null) {
             JsonObject message = Json.createObjectBuilder()
@@ -37,6 +39,7 @@ public class KundenIdResource {
     }
 
     @DELETE
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response deleteKundeById(@PathParam("id") int id) {
         boolean isDeleted = kundenController.deleteKundeById(id);
 
@@ -51,5 +54,28 @@ public class KundenIdResource {
             return Response.status(Response.Status.NOT_FOUND).entity(response).build();
 
         }
+    }
+
+    @GET
+    @Path("/details")
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public Response getKundeByDetails(@QueryParam("vorname") String vorname,
+                                      @QueryParam("nachname") String nachname,
+                                      @QueryParam("strasse") String strasse,
+                                      @QueryParam("hausnummer") String hausnummer,
+                                      @QueryParam("plz") String plz,
+                                      @QueryParam("ort") String ort) {
+        KundeWebDTO kunde = kundenController.getKundeByDetails(vorname, nachname, strasse, hausnummer, plz, ort);
+
+        if (kunde == null) {
+            JsonObject message = Json.createObjectBuilder()
+                    .add("message", "Kunde nicht gefunden").build();
+
+            JsonObject response = Json.createObjectBuilder()
+                    .add("info", message).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(response).build();
+        }
+
+        return Response.ok(kunde).build();
     }
 }

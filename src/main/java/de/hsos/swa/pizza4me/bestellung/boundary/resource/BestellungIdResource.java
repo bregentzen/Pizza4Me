@@ -27,6 +27,7 @@ public class BestellungIdResource {
             @APIResponse(responseCode = "204", description = "No Content"),
             @APIResponse(responseCode = "404", description = "Order not found")
     })
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response getBestellungById(@PathParam("kundeId") long kundeId, @PathParam("bestellungId") long bestellungId) {
         BestellungIdWebDTO bestellung = bestellungController.getBestellungById(kundeId, bestellungId);
         if (bestellung == null) {
@@ -38,13 +39,13 @@ public class BestellungIdResource {
     }
 
     @PUT
-    @Transactional
     @Operation(summary = "Add item to order", description = "Adds an item to the specified order")
     @APIResponses({
             @APIResponse(responseCode = "200", description = "Item added to order"),
             @APIResponse(responseCode = "204", description = "No Content"),
             @APIResponse(responseCode = "404", description = "Order not found")
     })
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response addBestellposten(@PathParam("kundeId") long kundeId, @PathParam("bestellungId") long bestellungId, BestellpostenWebDTO bestellpostenWebDTO) {
         BestellungIdWebDTO updatedBestellung = bestellungController.addBestellposten(kundeId, bestellungId, bestellpostenWebDTO);
         if (updatedBestellung == null) {
@@ -56,12 +57,12 @@ public class BestellungIdResource {
     }
 
     @DELETE
-    @Transactional
     @Operation(summary = "Delete order", description = "Deletes the specified order")
     @APIResponses({
             @APIResponse(responseCode = "204", description = "Order deleted"),
             @APIResponse(responseCode = "404", description = "Order not found")
     })
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response deleteBestellung(@PathParam("kundeId") long kundeId, @PathParam("bestellungId") long bestellungId) {
         boolean deleted = bestellungController.deleteBestellung(kundeId, bestellungId);
         if (!deleted) {

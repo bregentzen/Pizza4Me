@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Neue Bestellung</title>
+</head>
+<body>
+<h1>Neue Bestellung</h1>
+<form action="/newOrder/{kundeId}" method="post">
+    <input type="hidden" name="kundeId" value="{kundeId}">
+    {#each pizzas}
+        <div>
+            <label for="pizza-{it.id}">{it.name} - {it.preis}€:</label>
+            <input type="hidden" name="pizzaId" value="{it.id}">
+            <input type="number" id="pizza-{it.id}" name="quantity" min="0" placeholder="Anzahl">
+        </div>
+    {/each}
+    <br>
+    <button type="submit">Posten hinzufügen</button>
+</form>
+</body>
+</html>

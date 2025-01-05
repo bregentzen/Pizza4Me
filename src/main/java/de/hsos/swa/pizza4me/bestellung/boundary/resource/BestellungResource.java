@@ -26,6 +26,7 @@ public class BestellungResource {
             @APIResponse(responseCode = "200", description = "Orders found"),
             @APIResponse(responseCode = "204", description = "No Content")
     })
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response getAllBestellungen(@PathParam("id") long kundeId) {
         List<BestellungWebDTO> bestellungen = bestellungController.getAllBestellungen(kundeId);
         if (bestellungen.isEmpty()) {
@@ -35,12 +36,12 @@ public class BestellungResource {
     }
 
     @POST
-    @Transactional
     @Operation(summary = "Create order", description = "Creates a new order for a specific customer")
     @APIResponses({
             @APIResponse(responseCode = "200", description = "Order created"),
             @APIResponse(responseCode = "204", description = "No Content")
     })
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response createBestellung(@PathParam("id") long kundeId, BestellungWebDTO bestellungWebDTO) {
         BestellungWebDTO createdBestellung = bestellungController.createBestellung(kundeId, bestellungWebDTO);
         if (createdBestellung == null) {

@@ -19,7 +19,6 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import java.util.List;
 
 @Path("/kunden")
-@Transactional(Transactional.TxType.REQUIRES_NEW)
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class KundenResource {
@@ -41,6 +40,7 @@ public class KundenResource {
                     )
             }
     )
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response getAllKunden() {
         List<KundeIdWebDTO> kunden = kundenController.getAllKunden();
 
@@ -57,6 +57,7 @@ public class KundenResource {
     }
 
     @POST
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response createKunde(KundeWebDTO kunde) {
         KundeIdWebDTO createdKunde = kundenController.createKunde(kunde);
         return Response.status(Response.Status.CREATED).entity(createdKunde).build();

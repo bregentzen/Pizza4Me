@@ -5,6 +5,7 @@ import de.hsos.swa.pizza4me.pizza.boundary.dto.PizzaIdWebDTO;
 import de.hsos.swa.pizza4me.pizza.control.PizzeriaController;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -31,6 +32,7 @@ public class PizzaIdResource {
     @Operation(summary = "Get Pizza by ID", description = "Ruft eine Pizza anhand der ID ab")
     @APIResponse(responseCode = "200", description = "Pizza gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PizzaIdWebDTO.class)))
     @APIResponse(responseCode = "204", description = "Keine Pizza gefunden")
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response getPizza(@Parameter(description = "ID der Pizza", required = true) @PathParam("id") Long id) {
         PizzaIdWebDTO pizza = pizzeriaController.findPizzaById(id);
         if (pizza != null) {
@@ -49,6 +51,7 @@ public class PizzaIdResource {
     @Operation(summary = "Update Pizza Price", description = "Aktualisiert den Preis einer Pizza")
     @APIResponse(responseCode = "200", description = "Preis erfolgreich aktualisiert", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PizzaIdWebDTO.class)))
     @APIResponse(responseCode = "204", description = "Pizza konnte nicht bearbeitet werden")
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response updatePizzaPrice(@Parameter(description = "ID der Pizza", required = true) @PathParam("id") Long id, PizzaWebDTO pizza) {
         boolean updated = pizzeriaController.updatePizzaPrice(id, pizza.getPreis());
         if (updated) {
@@ -67,6 +70,7 @@ public class PizzaIdResource {
     @Operation(summary = "Delete Pizza", description = "Löscht eine Pizza anhand der ID")
     @APIResponse(responseCode = "204", description = "Pizza erfolgreich gelöscht")
     @APIResponse(responseCode = "404", description = "Pizza konnte nicht gefunden werden")
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Response deletePizza(@Parameter(description = "ID der Pizza", required = true) @PathParam("id") Long id) {
         boolean deleted = pizzeriaController.deletePizza(id);
         if (deleted) {
